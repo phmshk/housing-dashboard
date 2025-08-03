@@ -1,3 +1,4 @@
+import { config } from "../../config";
 import ApiError from "../../utils/ApiError";
 import { hashPassword, validatePassword } from "../../utils/passwordHandling";
 import User, { IUser } from "../users/users.model";
@@ -32,7 +33,7 @@ async function login(
     throw new ApiError(401, "Invalid email or password");
   }
 
-  const token = jwt.sign({ _id: user?._id }, process.env.JWT_SECRET as string, {
+  const token = jwt.sign({ _id: user?._id }, config.jwtSecret, {
     expiresIn: "1d",
   });
 

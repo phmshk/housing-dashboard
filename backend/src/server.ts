@@ -1,11 +1,9 @@
 import mongoose from "mongoose";
 import app from "./app";
-
-const PORT = process.env.PORT || 5000;
-const MONGO_URI = process.env.DATABASE_URL as string;
+import { config } from "./config";
 
 async function connectMongoose() {
-  await mongoose.connect(MONGO_URI);
+  await mongoose.connect(config.mongoUri);
 }
 
 try {
@@ -15,6 +13,6 @@ try {
   process.exit(1);
 }
 
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+app.listen(config.port, () => {
+  console.log(`Server is running on http://localhost:${config.port}`);
 });

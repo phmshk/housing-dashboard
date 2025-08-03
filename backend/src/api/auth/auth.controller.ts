@@ -23,7 +23,7 @@ async function loginUser(req: Request, res: Response) {
     const { token, user } = await login(email, password);
     res.cookie("jwt", token, {
       httpOnly: true, // The cookie is not accessible via client-side script
-      secure: process.env.NODE_ENV === "production" || false, // Only send over HTTPS in production
+      secure: false, // Only send over HTTPS in production
       maxAge: 24 * 60 * 60 * 1000, // 1 day expiration
     });
     return res.status(200).json(user);

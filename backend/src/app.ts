@@ -1,11 +1,9 @@
-import dotenv from "dotenv";
 import express, { Request, Response } from "express";
 import cookieParser from "cookie-parser";
 import "express-async-errors";
 import authRoutes from "./api/auth/auth.routes";
 import usersRouter from "./api/users/user.routes";
 
-dotenv.config();
 const app = express();
 
 app.use(express.json());
