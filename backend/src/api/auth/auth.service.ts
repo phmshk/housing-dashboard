@@ -32,13 +32,9 @@ async function login(
     throw new ApiError(401, "Invalid email or password");
   }
 
-  const token = jwt.sign(
-    { _id: user?._id },
-    "process.env.JWT_SECRET" as string,
-    {
-      expiresIn: "1d",
-    }
-  );
+  const token = jwt.sign({ _id: user?._id }, process.env.JWT_SECRET as string, {
+    expiresIn: "1d",
+  });
 
   return { token, user };
 }

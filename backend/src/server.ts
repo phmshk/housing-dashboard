@@ -1,9 +1,8 @@
 import mongoose from "mongoose";
 import app from "./app";
 
-const PORT = 5000;
-const MONGO_URI =
-  "mongodb+srv://phmoshkov:Jxx2GI0bQjKzlDpU@cluster0.mcewitl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const PORT = process.env.PORT || 5000;
+const MONGO_URI = process.env.DATABASE_URL as string;
 
 async function connectMongoose() {
   await mongoose.connect(MONGO_URI);

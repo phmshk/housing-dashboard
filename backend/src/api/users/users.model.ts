@@ -5,6 +5,11 @@ export interface IUser extends Document {
   password: string;
 }
 
+const transform = function (doc: IUser, ret: Record<string, any>) {
+  delete ret.password;
+  delete ret.__v;
+};
+
 const usersSchema = new mongoose.Schema<IUser>(
   {
     email: { type: String, required: true, unique: true },
@@ -13,11 +18,10 @@ const usersSchema = new mongoose.Schema<IUser>(
   {
     timestamps: true, // Automatically adds createdAt and updatedAt
     toJSON: {
-      transform: function (doc, ret: Record<string, any>) {
-        // 'ret' is the plain object representation of the document
-        delete ret.password; // delete the password field
-        delete ret.__v; // delete the version key
-      },
+      transform,
+    },
+    toObject: {
+      transform,
     },
   }
 );
