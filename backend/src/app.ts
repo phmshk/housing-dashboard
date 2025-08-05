@@ -3,17 +3,18 @@ import cookieParser from "cookie-parser";
 import "express-async-errors";
 import authRoutes from "./api/auth/auth.routes";
 import usersRouter from "./api/users/user.routes";
+import errorMiddleware from "./middlewares/error.middleware";
 
 const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
 
-app.use("/api", authRoutes);
+//routes
+app.use("/api/auth", authRoutes);
 app.use("/api/users", usersRouter);
 
-app.get("/", (req: Request, res: Response) => {
-  res.status(200).json({ message: "Hello from the backend!" });
-});
+//final error middleware
+app.use(errorMiddleware);
 
 export default app;
