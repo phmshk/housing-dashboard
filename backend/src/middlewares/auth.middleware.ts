@@ -7,27 +7,24 @@ import { config } from "../config";
 
 const authMiddleware: RequestHandler = async (req, res, next) => {
   const jwtToken = req.cookies.jwt;
-  let decodedToken: UserPayload;
 
   if (!jwtToken) {
     throw new ApiError(401, "Unauthorized: No token provided");
   }
 
   try {
-    decodedToken = jwt.verify(jwtToken, config.jwtSecret) as UserPayload;
+    const decodedToken = jwt.verify(jwtToken, config.jwtSecret) as UserPayload;
+    const user = await User.findById(decodedToken._id);
+
+    if (!user) {
+      throw new ApiError(401, "Unauthorized: User not found");
+    }
+
+    req.user = user;
+    next();
   } catch (e) {
     throw new ApiError(401, "Unauthorized: Invalid token");
   }
-
-  const user = await User.findById(decodedToken._id);
-
-  if (!user) {
-    throw new ApiError(401, "Unauthorized: User not found");
-  }
-
-  req.user = user;
-
-  next();
 };
 
 export { authMiddleware };
