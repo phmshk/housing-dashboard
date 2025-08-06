@@ -1,12 +1,21 @@
 import express from "express";
 import { authMiddleware } from "../../middlewares/auth.middleware";
-import { createApartment } from "./apartment.controller";
+import {
+  createApartment,
+  getApartments,
+  getApartmentById,
+  updateApartmentById,
+  deleteApartmentById,
+} from "./apartment.controller";
 import { validate } from "../../middlewares/validate.middleware";
-import { createApartmentSchema } from "./apartment.schemas";
+import {
+  createApartmentSchema,
+  updateApartmentSchema,
+} from "./apartment.schemas";
 const apartmentsRouter = express.Router();
 
-apartmentsRouter.get("/", authMiddleware);
-apartmentsRouter.get("/:id", authMiddleware);
+apartmentsRouter.get("/", authMiddleware, getApartments);
+apartmentsRouter.get("/:apartmentId", authMiddleware, getApartmentById);
 
 apartmentsRouter.post(
   "/",
@@ -15,8 +24,13 @@ apartmentsRouter.post(
   createApartment
 );
 
-apartmentsRouter.patch("/:id", authMiddleware);
+apartmentsRouter.patch(
+  "/:apartmentId",
+  authMiddleware,
+  validate(updateApartmentSchema),
+  updateApartmentById
+);
 
-apartmentsRouter.delete("/:id", authMiddleware);
+apartmentsRouter.delete("/:apartmentId", authMiddleware, deleteApartmentById);
 
 export default apartmentsRouter;
