@@ -7,6 +7,7 @@ import {
   deleteById,
 } from "./apartment.service";
 import mongoose from "mongoose";
+import ApiError from "../../utils/ApiError";
 
 async function createApartment(
   req: Request,
@@ -49,9 +50,7 @@ async function getApartmentById(
     const apartmentId = req.params.apartmentId;
     const apartment = await getById(apartmentId, userId);
     if (!apartment) {
-      return res
-        .status(404)
-        .json({ message: "No apartment with such id found" });
+      throw new ApiError(404, "No apartment with such id found");
     }
 
     return res.status(200).json(apartment);
@@ -86,9 +85,7 @@ async function deleteApartmentById(
     const apartmentId = req.params.apartmentId;
     const deletedApartment = await deleteById(apartmentId, userId);
     if (!deletedApartment) {
-      return res
-        .status(404)
-        .json({ message: "No apartment with such id found" });
+      throw new ApiError(404, "No apartment with such id found");
     }
     return res.status(200).json(deletedApartment);
   } catch (error) {
