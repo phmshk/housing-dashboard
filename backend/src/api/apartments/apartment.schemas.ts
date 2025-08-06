@@ -1,7 +1,7 @@
 import z from "zod";
 import { ApartmentStatus } from "./apartment.model";
 
-const inputSchema = z.object({
+const createApartmentSchema = z.object({
   body: z.object({
     title: z.string().min(1, "Title cannot be empty"),
     link: z.url("Link must be a valid URL"),
@@ -10,4 +10,4 @@ const inputSchema = z.object({
   }),
 });
 
-export { inputSchema };
+export { createApartmentSchema };

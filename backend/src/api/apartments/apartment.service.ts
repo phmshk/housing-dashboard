@@ -1,20 +1,16 @@
-import Apartment, { ApartmentStatus } from "./apartment.model";
+import mongoose from "mongoose";
+import Apartment, { ApartmentStatus, IApartment } from "./apartment.model";
 
-async function createNewApartment(
-  title: string,
-  link: string,
-  price: string,
-  status: ApartmentStatus,
-  userId: unknown
-) {
-  const newApartment = await Apartment.create(
-    title,
-    link,
-    price,
-    status,
-    userId
-  );
-  return newApartment;
+export interface CreateApartmentDto {
+  title: string;
+  link: string;
+  price: string;
+  status: ApartmentStatus;
+  user: mongoose.Types.ObjectId;
+}
+
+async function createNewApartment(apartment: CreateApartmentDto) {
+  return await Apartment.create(apartment);
 }
 
 export { createNewApartment };

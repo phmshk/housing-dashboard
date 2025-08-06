@@ -13,7 +13,7 @@ export interface IApartment extends Document {
   link: string;
   price: string;
   status: ApartmentStatus;
-  user: mongoose.Types.ObjectId | IUser;
+  user: mongoose.Types.ObjectId;
 }
 
 const apartmentsSchema = new mongoose.Schema<IApartment>(
